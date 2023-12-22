@@ -21,6 +21,7 @@ function App() {
 
   const [modalInsertar, setModalInsertar]=useState(false);
   const [modalEditar, setModalEditar]=useState(false);
+  const [modalEliminar, setModalEliminar]=useState(false);
 
 
 
@@ -84,6 +85,14 @@ function App() {
    }
 
 
+   const peticionDelete=async()=>{
+    await axios.delete(baseUrl+consolaSeleccionada.id)
+    .then(response=>{
+      setData(data.filter(consola=>consola.id!==consolaSeleccionada.id));
+      abrirCerrarModalEliminar();
+    })
+   }
+
 
    const abrirCerrarModalInsertar=()=>{
     setModalInsertar(!modalInsertar);
@@ -94,10 +103,15 @@ function App() {
    }
 
 
+   const abrirCerrarModalEliminar=()=>{
+    setModalEliminar(!modalEliminar);
+   }
+
+
 
    const seleccionarConsola=(cars, caso)=>{
     setConsolaSeleccionada(cars);
-    (caso==='Editar')&&setModalEditar(true)
+    (caso==='Editar')?abrirCerrarModalEditar():abrirCerrarModalEliminar()
    }
 
 
@@ -131,7 +145,7 @@ function App() {
       <TextField name="pic2" className='inputMaterial' label="Pic2" onChange={handleChange}/>
       <br /><br />
       <div align="right">
-        <Button color="primary" onClick={()=>peticionPost()}   >Insertar</Button>
+        <Button color="primary" onClick={()=>peticionPost()}>Insertar</Button>
         <Button onClick={()=>abrirCerrarModalInsertar()}>Cancelar</Button>
       </div>
       
@@ -168,6 +182,27 @@ function App() {
     </div>
   )
   
+
+  const bodyEliminar=(
+    <div className='modal'>
+      <p>Estas seguro que deseas eliminar el carro <b>{consolaSeleccionada && consolaSeleccionada.modelo}</b> ?</p>
+      
+      <div align="right">
+        <Button color="secondary" onClick={()=>peticionDelete()}>Si</Button>
+        <Button onClick={()=>abrirCerrarModalEliminar()}>No</Button>
+      </div>
+      
+
+    </div>
+  )
+  
+
+
+
+
+
+
+
 
   return (
     <div className="App">
@@ -213,7 +248,7 @@ function App() {
                 <TableCell>
                   <Edit className="iconos" onClick={()=>seleccionarConsola(cars,'Editar')}/>
                   &nbsp;&nbsp;&nbsp;
-                  <Delete className="iconos"/>
+                  <Delete className="iconos" onClick={()=>seleccionarConsola(cars,'Eliminar')}/>
                 </TableCell>
 
               </TableRow>
@@ -241,6 +276,16 @@ function App() {
         {bodyEditar}
         
       </Modal>
+
+      <Modal
+      open={modalEliminar}
+      onClose={abrirCerrarModalEliminar}
+      >
+        {bodyEliminar}
+        
+      </Modal>
+      
+
       
     </div>
   );
