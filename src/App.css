@@ -18,3 +18,9 @@
   width:100%;
 }
 
+.tableHead{
+  color: blue;
+  text-align: center;
+  background-color: rgb(193, 189, 189);
+}
+

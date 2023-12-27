@@ -4,7 +4,7 @@ import axios from 'axios';
 
 
 import { Table, TableContainer, TableHead, TableCell, TableBody, TableRow, Modal, Button, TextField } from '@mui/material';
-import {Edit,Delete} from "@mui/icons-material"
+import {Edit,Delete,Visibility} from "@mui/icons-material"
 
 
 
@@ -22,10 +22,11 @@ function App() {
   const [modalInsertar, setModalInsertar]=useState(false);
   const [modalEditar, setModalEditar]=useState(false);
   const [modalEliminar, setModalEliminar]=useState(false);
+  const [modalVer, setModalVer]=useState(false);
 
 
 
-  const [consolaSeleccionada, setConsolaSeleccionada]=useState({
+  const [carsSeleccionada, setcarsSeleccionada]=useState({
     marca: '',
     modelo: '',
     year: '',
@@ -39,11 +40,11 @@ function App() {
 
   const handleChange=e=>{
     const {name, value}=e.target;
-    setConsolaSeleccionada(prevState=>({
+    setcarsSeleccionada(prevState=>({
       ...prevState,
       [name]: value
     }))
-    console.log(consolaSeleccionada);
+    console.log(carsSeleccionada);
   }
 
 
@@ -56,7 +57,7 @@ function App() {
 
 
    const peticionPost=async()=>{
-    await axios.post(baseUrl, consolaSeleccionada)
+    await axios.post(baseUrl, carsSeleccionada)
     .then(response=>{
       setData(data.concat(response.data))
       abrirCerrarModalInsertar()
@@ -64,19 +65,19 @@ function App() {
    }
 
    const peticionPut=async()=>{
-    await axios.put(baseUrl+consolaSeleccionada.id, consolaSeleccionada)
+    await axios.put(baseUrl+carsSeleccionada.id, carsSeleccionada)
     .then(response=>{
       var dataNueva=data;
-      dataNueva.map(consola=>{
-        if(consolaSeleccionada.id===consola.id){
-          consola.marca=consolaSeleccionada.marca;
-          consola.modelo=consolaSeleccionada.modelo;
-          consola.year=consolaSeleccionada.year;
-          consola.cilindrada=consolaSeleccionada.cilindrada;
-          consola.procedencia=consolaSeleccionada.procedencia;
-          consola.precio=consolaSeleccionada.precio;
-          consola.pic1=consolaSeleccionada.pic1;
-          consola.pic2=consolaSeleccionada.pic2;
+      dataNueva.map(cars=>{
+        if(carsSeleccionada.id===cars.id){
+          cars.marca=carsSeleccionada.marca;
+          cars.modelo=carsSeleccionada.modelo;
+          cars.year=carsSeleccionada.year;
+          cars.cilindrada=carsSeleccionada.cilindrada;
+          cars.procedencia=carsSeleccionada.procedencia;
+          cars.precio=carsSeleccionada.precio;
+          cars.pic1=carsSeleccionada.pic1;
+          cars.pic2=carsSeleccionada.pic2;
         }
       })
       setData(dataNueva);
@@ -86,9 +87,9 @@ function App() {
 
 
    const peticionDelete=async()=>{
-    await axios.delete(baseUrl+consolaSeleccionada.id)
+    await axios.delete(baseUrl+carsSeleccionada.id)
     .then(response=>{
-      setData(data.filter(consola=>consola.id!==consolaSeleccionada.id));
+      setData(data.filter(cars=>cars.id!==carsSeleccionada.id));
       abrirCerrarModalEliminar();
     })
    }
@@ -107,13 +108,29 @@ function App() {
     setModalEliminar(!modalEliminar);
    }
 
-
-
-   const seleccionarConsola=(cars, caso)=>{
-    setConsolaSeleccionada(cars);
-    (caso==='Editar')?abrirCerrarModalEditar():abrirCerrarModalEliminar()
+   const abrirCerrarModalVer=()=>{
+    setModalVer(!modalVer);
    }
 
+
+
+
+   const seleccionarcars=(cars,caso)=>{
+    setcarsSeleccionada(cars);
+    if (caso==='Editar'){
+      abrirCerrarModalEditar();
+    }
+    else{
+      if(caso=='Ver'){
+        abrirCerrarModalVer();
+      }
+      else{
+        abrirCerrarModalEliminar();
+      }
+
+    }
+   
+   }
 
 
 
@@ -157,21 +174,21 @@ function App() {
     <div className='modal'>
       <h3>Editar Carro</h3>
       
-      <TextField name="marca" className='inputMaterial' label="Marca" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.marca}/>
+      <TextField name="marca" className='inputMaterial' label="Marca" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.marca}/>
       <br />
-      <TextField name="modelo" className='inputMaterial' label="Modelo" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.modelo}/>
+      <TextField name="modelo" className='inputMaterial' label="Modelo" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.modelo}/>
       <br />
-      <TextField name="year" className='inputMaterial' label="Year" onChange={handleChange}  value={consolaSeleccionada && consolaSeleccionada.year}/>
+      <TextField name="year" className='inputMaterial' label="Year" onChange={handleChange}  value={carsSeleccionada && carsSeleccionada.year}/>
       <br />
-      <TextField name="cilindrada" className='inputMaterial' label="Cilindrada" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.cilindrada}/>
+      <TextField name="cilindrada" className='inputMaterial' label="Cilindrada" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.cilindrada}/>
       <br />
-      <TextField name="procedencia" className='inputMaterial' label="Procedencia" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.procedencia}/>
+      <TextField name="procedencia" className='inputMaterial' label="Procedencia" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.procedencia}/>
       <br />
-      <TextField name="precio" className='inputMaterial' label="Precio" onChange={handleChange} value={consolaSeleccionada && consolaSeleccionada.precio}/>
+      <TextField name="precio" className='inputMaterial' label="Precio" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.precio}/>
       <br />
-      <TextField name="pic1" className='inputMaterial' label="Pic1" onChange={handleChange}  value={consolaSeleccionada && consolaSeleccionada.pic1}/>
+      <TextField name="pic1" className='inputMaterial' label="Pic1" onChange={handleChange}  value={carsSeleccionada && carsSeleccionada.pic1}/>
       <br />
-      <TextField name="pic2" className='inputMaterial' label="Pic2" onChange={handleChange}  value={consolaSeleccionada && consolaSeleccionada.pic2}/>
+      <TextField name="pic2" className='inputMaterial' label="Pic2" onChange={handleChange}  value={carsSeleccionada && carsSeleccionada.pic2}/>
       <br /><br />
       <div align="right">
         <Button color="primary" onClick={()=>peticionPut()}>Editar</Button>
@@ -185,11 +202,87 @@ function App() {
 
   const bodyEliminar=(
     <div className='modal'>
-      <p>Estas seguro que deseas eliminar el carro <b>{consolaSeleccionada && consolaSeleccionada.modelo}</b> ?</p>
+      <p>Estas seguro que deseas eliminar el carro <b>{carsSeleccionada && carsSeleccionada.modelo}</b> ?</p>
       
       <div align="right">
         <Button color="secondary" onClick={()=>peticionDelete()}>Si</Button>
         <Button onClick={()=>abrirCerrarModalEliminar()}>No</Button>
+      </div>
+      
+
+    </div>
+  )
+
+  const bodyVer=(
+    <div className='modal'>
+      <h3>Ver Carro</h3>
+      
+      {/* <TextField name="marca" className='inputMaterial' label="Marca"  value={carsSeleccionada && carsSeleccionada.marca}/>
+      <br />
+      <TextField name="modelo" className='inputMaterial' label="Modelo"  value={carsSeleccionada && carsSeleccionada.modelo}/>
+      <br />
+      <TextField name="year" className='inputMaterial' label="Year"   value={carsSeleccionada && carsSeleccionada.year}/>
+      <br />
+      <TextField name="cilindrada" className='inputMaterial' label="Cilindrada"  value={carsSeleccionada && carsSeleccionada.cilindrada}/>
+      <br />
+      <TextField name="procedencia" className='inputMaterial' label="Procedencia"  value={carsSeleccionada && carsSeleccionada.procedencia}/>
+      <br />
+      <TextField name="precio" className='inputMaterial' label="Precio"  value={carsSeleccionada && carsSeleccionada.precio}/>
+      <br />
+      <TextField name="pic1" className='inputMaterial' label="Pic1"   value={carsSeleccionada && carsSeleccionada.pic1}/>
+      <br />
+      <TextField name="pic2" className='inputMaterial' label="Pic2"  value={carsSeleccionada && carsSeleccionada.pic2}/>
+      <br /><br /> */}
+      
+      <TableContainer>
+        <Table>
+          <TableHead className='tableHead'>
+            <TableRow>
+              <TableCell>Marca</TableCell>
+              <TableCell>Modelo</TableCell>
+              <TableCell>Year</TableCell>
+              <TableCell>Cilindrada</TableCell>
+              <TableCell>Procedencia</TableCell>
+              <TableCell>Precio</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell>
+              {carsSeleccionada.marca}
+              </TableCell>
+              <TableCell>
+              {carsSeleccionada.modelo}
+              </TableCell>
+              <TableCell>
+              {carsSeleccionada.year}
+              </TableCell>
+              <TableCell>
+              {carsSeleccionada.cilindrada}
+              </TableCell>
+              <TableCell>
+              {carsSeleccionada.procedencia}
+              </TableCell>
+              <TableCell>
+              {carsSeleccionada.precio}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+            <TableCell>Carrusel</TableCell>
+            </TableRow>
+
+          </TableBody>
+        </Table>
+      </TableContainer>
+      
+      <br />
+
+
+
+      <div align="right">
+      
+        
+        <Button onClick={()=>abrirCerrarModalVer()}>Cancelar</Button>
       </div>
       
 
@@ -215,7 +308,7 @@ function App() {
 
       <TableContainer>
         <Table>
-          <TableHead>
+          <TableHead className='tableHead'>
             <TableRow>
               {/* <TableCell>Id</TableCell> */}
               <TableCell>Marca</TableCell>
@@ -246,9 +339,11 @@ function App() {
                 <TableCell>{cars.pic1}</TableCell>
                 <TableCell>{cars.pic2}</TableCell>
                 <TableCell>
-                  <Edit className="iconos" onClick={()=>seleccionarConsola(cars,'Editar')}/>
+                  <Edit className="iconos" onClick={()=>seleccionarcars(cars,'Editar')}/>
                   &nbsp;&nbsp;&nbsp;
-                  <Delete className="iconos" onClick={()=>seleccionarConsola(cars,'Eliminar')}/>
+                  <Delete className="iconos" onClick={()=>seleccionarcars(cars,'Eliminar')}/>
+                  &nbsp;&nbsp;&nbsp;
+                  <Visibility className="iconos" onClick={()=>seleccionarcars(cars,'Ver')}/>
                 </TableCell>
 
               </TableRow>
@@ -282,6 +377,14 @@ function App() {
       onClose={abrirCerrarModalEliminar}
       >
         {bodyEliminar}
+        
+      </Modal>
+
+      <Modal
+      open={modalVer}
+      onClose={abrirCerrarModalVer}
+      >
+        {bodyVer}
         
       </Modal>
       
