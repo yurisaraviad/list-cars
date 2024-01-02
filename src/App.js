@@ -1,17 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import './App.css';
+//import './App.css';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.bundle';
 
 
-import { Table, TableContainer, TableHead, TableCell, TableBody, TableRow, Modal, Button, TextField } from '@mui/material';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+
+
+//import { Table, TableContainer, TableHead, TableCell, TableBody, TableRow, Modal, Button, input type="text" } from '@mui/material';
 import {Edit,Delete,Visibility} from "@mui/icons-material"
+import { ModalBody } from 'react-bootstrap';
+//import { input type="text" } from '@mui/material';
 
 
 
 const baseUrl='http://localhost:3001/cars/'
 
 
-//23:33
+
 
 
 
@@ -140,60 +148,114 @@ function App() {
 
    })
 
-//falta styles
+
   const bodyInsertar=(
-    <div className='modal'>
-      <h3>Agregar Nuevo Carro</h3>
-      
-      <TextField name="marca" className='inputMaterial' label="Marca" onChange={handleChange}/>
-      <br />
-      <TextField name="modelo" className='inputMaterial' label="Modelo" onChange={handleChange}/>
-      <br />
-      <TextField name="year" className='inputMaterial' label="Year" onChange={handleChange}/>
-      <br />
-      <TextField name="cilindrada" className='inputMaterial' label="Cilindrada" onChange={handleChange}/>
-      <br />
-      <TextField name="procedencia" className='inputMaterial' label="Procedencia" onChange={handleChange}/>
-      <br />
-      <TextField name="precio" className='inputMaterial' label="Precio" onChange={handleChange}/>
-      <br />
-      <TextField name="pic1" className='inputMaterial' label="Pic1" onChange={handleChange}/>
-      <br />
-      <TextField name="pic2" className='inputMaterial' label="Pic2" onChange={handleChange}/>
-      <br /><br />
-      <div align="right">
-        <Button color="primary" onClick={()=>peticionPost()}>Insertar</Button>
-        <Button onClick={()=>abrirCerrarModalInsertar()}>Cancelar</Button>
+           
+    <div>
+      <Modal.Header closeButton>
+        <Modal.Title>Agregar Nuevo Carro</Modal.Title>
+      </Modal.Header>
+
+      <Modal.Body>
+      <div class="input-group mb-3">  
+      <span class="input-group-text" id="basic-addon1">Marca</span>            
+      <input type="text" placeholder="Marca" name="marca" className='form-control' label="Marca" onChange={handleChange}/>
       </div>
-      
+      <div class="input-group mb-3">  
+      <span class="input-group-text" id="basic-addon1">Modelo</span> 
+      <input type="text" placeholder="Modelo" name="modelo" className='form-control' label="Modelo" onChange={handleChange}/>
+      </div>
+      <div class="input-group mb-3">  
+      <span class="input-group-text" id="basic-addon1">Year</span> 
+      <input type="text" placeholder="Year" name="year" className='form-control' label="Year" onChange={handleChange}/>
+      </div>
+      <div class="input-group mb-3">  
+      <span class="input-group-text" id="basic-addon1">Cilindrada</span> 
+      <input type="text" placeholder="Cilindrada" name="cilindrada" className='form-control' label="Cilindrada" onChange={handleChange}/>
+      </div>
+      <div class="input-group mb-3">  
+      <span class="input-group-text" id="basic-addon1">Procedencia</span> 
+      <input type="text" placeholder="Procedencia" name="procedencia" className='form-control' label="Procedencia" onChange={handleChange}/>
+      </div>
+      <div class="input-group mb-3">  
+      <span class="input-group-text" id="basic-addon1">Precio</span> 
+      <input type="text" placeholder="Precio" name="precio" className='form-control' label="Precio" onChange={handleChange}/>
+      </div>
+      <div class="input-group mb-3">  
+      <span class="input-group-text" id="basic-addon1">Pic1</span> 
+      <input type="text" placeholder="Pic1" name="pic1" className='form-control' label="Pic1" onChange={handleChange}/>
+      </div>
+      <div class="input-group mb-3">  
+      <span class="input-group-text" id="basic-addon1">Pic2</span> 
+      <input type="text" placeholder="Pic2" name="pic2" className='form-control' label="Pic2" onChange={handleChange}/>
+      </div>
+      </Modal.Body>        
+
+      <Modal.Footer>
+          <Button variant="success" onClick={()=>peticionPost()}>
+            Insertar
+          </Button>
+          <Button variant="secondary" onClick={()=>abrirCerrarModalInsertar()}>
+            Cancelar
+          </Button>
+          
+      </Modal.Footer>
 
     </div>
+    
   )
 
   const bodyEditar=(
-    <div className='modal'>
-      <h3>Editar Carro</h3>
-      
-      <TextField name="marca" className='inputMaterial' label="Marca" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.marca}/>
-      <br />
-      <TextField name="modelo" className='inputMaterial' label="Modelo" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.modelo}/>
-      <br />
-      <TextField name="year" className='inputMaterial' label="Year" onChange={handleChange}  value={carsSeleccionada && carsSeleccionada.year}/>
-      <br />
-      <TextField name="cilindrada" className='inputMaterial' label="Cilindrada" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.cilindrada}/>
-      <br />
-      <TextField name="procedencia" className='inputMaterial' label="Procedencia" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.procedencia}/>
-      <br />
-      <TextField name="precio" className='inputMaterial' label="Precio" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.precio}/>
-      <br />
-      <TextField name="pic1" className='inputMaterial' label="Pic1" onChange={handleChange}  value={carsSeleccionada && carsSeleccionada.pic1}/>
-      <br />
-      <TextField name="pic2" className='inputMaterial' label="Pic2" onChange={handleChange}  value={carsSeleccionada && carsSeleccionada.pic2}/>
-      <br /><br />
-      <div align="right">
-        <Button color="primary" onClick={()=>peticionPut()}>Editar</Button>
-        <Button onClick={()=>abrirCerrarModalEditar()}>Cancelar</Button>
+    <div>
+      <Modal.Header closeButton>
+        <Modal.Title>Editar Carro</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+      <div class="input-group mb-3">  
+      <span class="input-group-text" id="basic-addon1">Marca</span>     
+      <input type="text" name="marca" className='form-control' label="Marca" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.marca}/>
       </div>
+      <div class="input-group mb-3"> 
+      <span class="input-group-text" id="basic-addon1">Modelo</span>  
+      <input type="text"  name="modelo" className='form-control' label="Modelo" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.modelo}/>
+      </div>
+      <div class="input-group mb-3"> 
+      <span class="input-group-text" id="basic-addon1">Year</span> 
+      <input type="text"  name="year" className='form-control' label="Year" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.year}/>
+      </div>
+      <div class="input-group mb-3"> 
+      <span class="input-group-text" id="basic-addon1">Cilindrada</span>      
+      <input type="text"  name="cilindrada" className='form-control' label="Cilindrada" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.cilindrada}/>
+      </div>
+      <div class="input-group mb-3"> 
+      <span class="input-group-text" id="basic-addon1">Procedencia</span> 
+      <input type="text" name="procedencia" className='form-control' label="Procedencia" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.procedencia}/>
+      </div>
+      <div class="input-group mb-3"> 
+      <span class="input-group-text" id="basic-addon1">Modelo</span>
+      <input type="text" name="precio" className='form-control' label="Precio" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.precio}/>
+      </div>
+      <div class="input-group mb-3"> 
+      <span class="input-group-text" id="basic-addon1">Modelo</span>
+      <input type="text"  name="pic1" className='form-control' label="Pic1" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.pic1}/>
+      </div>
+      <div class="input-group mb-3"> 
+      <span class="input-group-text" id="basic-addon1">Modelo</span> 
+      <input type="text"  name="pic2" className='form-control' label="Pic2" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.pic2}/>
+      </div>
+      </Modal.Body>  
+          
+           
+      
+      <Modal.Footer>
+          <Button variant="success" onClick={()=>peticionPut()}>
+            Editar
+          </Button>
+          <Button variant="secondary" onClick={()=>abrirCerrarModalEditar()}>
+            Cancelar
+          </Button>
+          
+      </Modal.Footer>
       
 
     </div>
@@ -201,91 +263,63 @@ function App() {
   
 
   const bodyEliminar=(
-    <div className='modal'>
+    <div>
+      <Modal.Header closeButton>
+        <Modal.Title>Eliminar Carro</Modal.Title>
+      </Modal.Header>
+      <ModalBody>
       <p>Estas seguro que deseas eliminar el carro <b>{carsSeleccionada && carsSeleccionada.modelo}</b> ?</p>
-      
-      <div align="right">
-        <Button color="secondary" onClick={()=>peticionDelete()}>Si</Button>
-        <Button onClick={()=>abrirCerrarModalEliminar()}>No</Button>
-      </div>
+      </ModalBody>
+      <Modal.Footer>      
+        <Button variant="danger" onClick={()=>peticionDelete()}>
+            Elminar
+        </Button>
+        <Button variant="secondary" onClick={()=>abrirCerrarModalEliminar()}>
+            Cancelar
+        </Button>
+      </Modal.Footer>
       
 
     </div>
   )
 
   const bodyVer=(
-    <div className='modal'>
-      <h3>Ver Carro</h3>
-      
-      {/* <TextField name="marca" className='inputMaterial' label="Marca"  value={carsSeleccionada && carsSeleccionada.marca}/>
-      <br />
-      <TextField name="modelo" className='inputMaterial' label="Modelo"  value={carsSeleccionada && carsSeleccionada.modelo}/>
-      <br />
-      <TextField name="year" className='inputMaterial' label="Year"   value={carsSeleccionada && carsSeleccionada.year}/>
-      <br />
-      <TextField name="cilindrada" className='inputMaterial' label="Cilindrada"  value={carsSeleccionada && carsSeleccionada.cilindrada}/>
-      <br />
-      <TextField name="procedencia" className='inputMaterial' label="Procedencia"  value={carsSeleccionada && carsSeleccionada.procedencia}/>
-      <br />
-      <TextField name="precio" className='inputMaterial' label="Precio"  value={carsSeleccionada && carsSeleccionada.precio}/>
-      <br />
-      <TextField name="pic1" className='inputMaterial' label="Pic1"   value={carsSeleccionada && carsSeleccionada.pic1}/>
-      <br />
-      <TextField name="pic2" className='inputMaterial' label="Pic2"  value={carsSeleccionada && carsSeleccionada.pic2}/>
-      <br /><br /> */}
-      
-      <TableContainer>
-        <Table>
-          <TableHead className='tableHead'>
-            <TableRow>
-              <TableCell>Marca</TableCell>
-              <TableCell>Modelo</TableCell>
-              <TableCell>Year</TableCell>
-              <TableCell>Cilindrada</TableCell>
-              <TableCell>Procedencia</TableCell>
-              <TableCell>Precio</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell>
-              {carsSeleccionada.marca}
-              </TableCell>
-              <TableCell>
-              {carsSeleccionada.modelo}
-              </TableCell>
-              <TableCell>
-              {carsSeleccionada.year}
-              </TableCell>
-              <TableCell>
-              {carsSeleccionada.cilindrada}
-              </TableCell>
-              <TableCell>
-              {carsSeleccionada.procedencia}
-              </TableCell>
-              <TableCell>
-              {carsSeleccionada.precio}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-            <TableCell>Carrusel</TableCell>
-            </TableRow>
-
-          </TableBody>
-        </Table>
-      </TableContainer>
-      
-      <br />
-
-
-
-      <div align="right">
-      
-        
-        <Button onClick={()=>abrirCerrarModalVer()}>Cancelar</Button>
-      </div>
-      
-
+    <div>
+      <Modal.Header closeButton>
+        <Modal.Title>Ver Carro</Modal.Title>
+      </Modal.Header>
+      <ModalBody>        
+      <table class="table table-bordered">
+          <thead class="table-primary">
+            <tr >
+              <th scope="col">Marca</th>
+              <th scope="col">Modelo</th>
+              <th scope="col">Year</th>
+              <th scope="col">Cilindrada</th>
+              <th scope="col">Procedencia</th>
+              <th scope="col">Precio</th>
+            </tr>
+          </thead>
+          <tbody class="table-secondary">
+            <tr >
+            <td>{carsSeleccionada.marca}</td>
+            <td>{carsSeleccionada.modelo}</td>
+            <td>{carsSeleccionada.year}</td>
+            <td>{carsSeleccionada.cilindrada}</td>
+            <td>{carsSeleccionada.procedencia}</td>
+            <td>{carsSeleccionada.precio}</td>
+            </tr>
+            <tr>
+              Carrousel
+            </tr>
+          </tbody>
+      </table>
+      </ModalBody>
+      <Modal.Footer>      
+        <Button variant="secondary" onClick={()=>abrirCerrarModalVer()}>
+            Cancelar
+        </Button>
+      </Modal.Footer>
     </div>
   )
   
@@ -300,93 +334,90 @@ function App() {
   return (
     <div className="App">
       <br />
-
-      <Button onClick={()=>abrirCerrarModalInsertar()}>
+ 
+      <Button variant="primary" onClick={()=>abrirCerrarModalInsertar()}>
         Insertar
       </Button>
 
+      
 
-      <TableContainer>
-        <Table>
-          <TableHead className='tableHead'>
-            <TableRow>
-              {/* <TableCell>Id</TableCell> */}
-              <TableCell>Marca</TableCell>
-              <TableCell>Modelo</TableCell>
-              <TableCell>Year</TableCell>
-              <TableCell>Cilindrada</TableCell>
-              <TableCell>Procedencia</TableCell>
-              <TableCell>Precio</TableCell>
-              <TableCell>Pic1</TableCell>
-              <TableCell>Pic2</TableCell>
-              <TableCell>Acciones</TableCell>
-              
+      <table class="table table-bordered">
+          <thead class="table-primary">
+            <tr >
+              <th scope="col">Marca</th>
+              <th scope="col">Modelo</th>
+              <th scope="col">Year</th>
+              <th scope="col">Cilindrada</th>
+              <th scope="col">Procedencia</th>
+              <th scope="col">Precio</th>
+              <th scope="col">Pic1</th>
+              <th scope="col">Pic2</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="table-secondary">{data.map(cars=>(
 
-
-            </TableRow>
-          </TableHead>
-
-          <TableBody>
-            {data.map(cars=>(
-              <TableRow key={cars.id}>
-                {/* <TableCell>{cars.id}</TableCell> */}
-                <TableCell>{cars.marca}</TableCell>
-                <TableCell>{cars.modelo}</TableCell>
-                <TableCell>{cars.year}</TableCell>
-                <TableCell>{cars.cilindrada}</TableCell>
-                <TableCell>{cars.procedencia}</TableCell>
-                <TableCell>{cars.precio}</TableCell>
-                <TableCell>{cars.pic1}</TableCell>
-                <TableCell>{cars.pic2}</TableCell>
-                <TableCell>
-                  <Edit className="iconos" onClick={()=>seleccionarcars(cars,'Editar')}/>
+            <tr key={cars.id}>
+                <td scope="row">{cars.marca}</td>
+                <td>{cars.modelo}</td>
+                <td>{cars.year}</td>
+                <td>{cars.cilindrada}</td>
+                <td>{cars.procedencia}</td>
+                <td>{cars.precio}</td>
+                <td>{cars.pic1}</td>
+                <td>{cars.pic2}</td>
+                <td><Edit className="iconos" onClick={()=>seleccionarcars(cars,'Editar')}/>
                   &nbsp;&nbsp;&nbsp;
                   <Delete className="iconos" onClick={()=>seleccionarcars(cars,'Eliminar')}/>
                   &nbsp;&nbsp;&nbsp;
                   <Visibility className="iconos" onClick={()=>seleccionarcars(cars,'Ver')}/>
-                </TableCell>
-
-              </TableRow>
+                </td>
+            </tr>
             ))}
-          </TableBody>
+          </tbody>
+
+      </table>
 
 
-        </Table>
 
-      </TableContainer>
 
 
       <Modal
-      open={modalInsertar}
-      onClose={abrirCerrarModalInsertar}
+      show={modalInsertar}
+      onHidde={abrirCerrarModalInsertar}
       >
+        
         {bodyInsertar}
+        
         
       </Modal>
 
       <Modal
-      open={modalEditar}
-      onClose={abrirCerrarModalEditar}
+      show={modalEditar}
+      onHidde={abrirCerrarModalEditar}
       >
         {bodyEditar}
         
       </Modal>
 
       <Modal
-      open={modalEliminar}
-      onClose={abrirCerrarModalEliminar}
+      show={modalEliminar}
+      onHidde={abrirCerrarModalEliminar}
       >
         {bodyEliminar}
         
       </Modal>
 
       <Modal
-      open={modalVer}
-      onClose={abrirCerrarModalVer}
+      show={modalVer}
+      onHidde={abrirCerrarModalVer}
       >
         {bodyVer}
         
       </Modal>
+
+
+
       
 
       

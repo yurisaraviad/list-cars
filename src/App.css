@@ -1,8 +1,8 @@
-.App {
+/* .App {
   text-align: center;
 }
 
-.modal{
+ .modal{
   position: absolute;
   width: 400;
   background-color: white;
@@ -12,15 +12,15 @@
   top:50%;
   left:50%;
   transform: translate(-50%,-50%);
-}
+}  
 
-.inputMaterial{
+/* .inputMaterial{
   width:100%;
-}
+} */
 
-.tableHead{
+/* .tableHead{
   color: blue;
   text-align: center;
   background-color: rgb(193, 189, 189);
-}
+} */
 
