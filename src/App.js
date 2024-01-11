@@ -9,10 +9,15 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
-//import { Table, TableContainer, TableHead, TableCell, TableBody, TableRow, Modal, Button, input type="text" } from '@mui/material';
+
+//import Carousel from 'react-bootstrap/Carousel';
+//import ExampleCarouselImage from 'components/ExampleCarouselImage';
+
+
+
 import {Edit,Delete,Visibility} from "@mui/icons-material"
 import { ModalBody } from 'react-bootstrap';
-//import { input type="text" } from '@mui/material';
+
 
 
 
@@ -152,8 +157,9 @@ function App() {
   const bodyInsertar=(
            
     <div>
-      <Modal.Header closeButton>
+      <Modal.Header>
         <Modal.Title>Agregar Nuevo Carro</Modal.Title>
+        <button type="button" class="btn-close" aria-label="Close" onClick={()=>abrirCerrarModalInsertar()}></button>
       </Modal.Header>
 
       <Modal.Body>
@@ -207,8 +213,9 @@ function App() {
 
   const bodyEditar=(
     <div>
-      <Modal.Header closeButton>
+      <Modal.Header>
         <Modal.Title>Editar Carro</Modal.Title>
+        <button type="button" class="btn-close" aria-label="Close" onClick={()=>abrirCerrarModalEditar()}></button>
       </Modal.Header>
       <Modal.Body>
       <div class="input-group mb-3">  
@@ -236,11 +243,11 @@ function App() {
       <input type="text" name="precio" className='form-control' label="Precio" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.precio}/>
       </div>
       <div class="input-group mb-3"> 
-      <span class="input-group-text" id="basic-addon1">Modelo</span>
+      <span class="input-group-text" id="basic-addon1">Pic1</span>
       <input type="text"  name="pic1" className='form-control' label="Pic1" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.pic1}/>
       </div>
       <div class="input-group mb-3"> 
-      <span class="input-group-text" id="basic-addon1">Modelo</span> 
+      <span class="input-group-text" id="basic-addon1">Pic2</span> 
       <input type="text"  name="pic2" className='form-control' label="Pic2" onChange={handleChange} value={carsSeleccionada && carsSeleccionada.pic2}/>
       </div>
       </Modal.Body>  
@@ -249,7 +256,7 @@ function App() {
       
       <Modal.Footer>
           <Button variant="success" onClick={()=>peticionPut()}>
-            Editar
+            Guardar
           </Button>
           <Button variant="secondary" onClick={()=>abrirCerrarModalEditar()}>
             Cancelar
@@ -264,8 +271,9 @@ function App() {
 
   const bodyEliminar=(
     <div>
-      <Modal.Header closeButton>
+      <Modal.Header>
         <Modal.Title>Eliminar Carro</Modal.Title>
+        <button type="button" class="btn-close" aria-label="Close" onClick={()=>abrirCerrarModalEliminar()}></button>
       </Modal.Header>
       <ModalBody>
       <p>Estas seguro que deseas eliminar el carro <b>{carsSeleccionada && carsSeleccionada.modelo}</b> ?</p>
@@ -285,12 +293,13 @@ function App() {
 
   const bodyVer=(
     <div>
-      <Modal.Header closeButton>
+      <Modal.Header>
         <Modal.Title>Ver Carro</Modal.Title>
+        <button type="button" class="btn-close" aria-label="Close" onClick={()=>abrirCerrarModalVer()}></button>
       </Modal.Header>
       <ModalBody>        
-      <table class="table table-bordered">
-          <thead class="table-primary">
+      <table className="table table-bordered table-sm">
+          <thead className="table-primary">
             <tr >
               <th scope="col">Marca</th>
               <th scope="col">Modelo</th>
@@ -300,20 +309,57 @@ function App() {
               <th scope="col">Precio</th>
             </tr>
           </thead>
-          <tbody class="table-secondary">
+          <tbody class="table-secondary table-group-divider">
             <tr >
-            <td>{carsSeleccionada.marca}</td>
+            <td scope="row">{carsSeleccionada.marca}</td>
             <td>{carsSeleccionada.modelo}</td>
             <td>{carsSeleccionada.year}</td>
             <td>{carsSeleccionada.cilindrada}</td>
             <td>{carsSeleccionada.procedencia}</td>
             <td>{carsSeleccionada.precio}</td>
+            
             </tr>
-            <tr>
-              Carrousel
-            </tr>
+            
           </tbody>
       </table>
+
+      <h5>
+        Imagenes del {carsSeleccionada.marca} {carsSeleccionada.modelo}
+      </h5>
+
+      <div id="carouselExampleCaptions" className="carousel carousel-dark slide">
+        <div className="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          
+        </div>
+        <div className="carousel-inner">
+          <div className="carousel-item active">
+            <img src={carsSeleccionada.pic1} className="d-block w-100" alt={carsSeleccionada.pic1}/>
+            <div className="carousel-caption d-none d-md-block">
+              <h5>Marca: {carsSeleccionada.marca} </h5>
+              <p>Modelo: {carsSeleccionada.modelo}</p>
+            </div>
+          </div>
+          <div className="carousel-item">
+            <img src={carsSeleccionada.pic2} className="d-block w-100" alt={carsSeleccionada.pic2}/>
+            <div className="carousel-caption d-none d-md-block">
+              <h5>Marca: {carsSeleccionada.marca} </h5>
+              <p>Modelo: {carsSeleccionada.modelo}</p>
+            </div>
+          </div>
+          
+        </div>
+        <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
       </ModalBody>
       <Modal.Footer>      
         <Button variant="secondary" onClick={()=>abrirCerrarModalVer()}>
@@ -332,30 +378,35 @@ function App() {
 
 
   return (
-    <div className="App">
-      <br />
- 
-      <Button variant="primary" onClick={()=>abrirCerrarModalInsertar()}>
-        Insertar
-      </Button>
-
+    <div>
       
 
-      <table class="table table-bordered">
-          <thead class="table-primary">
-            <tr >
+      <h1 className="display-6 text-center p-2">
+        LISTA DE CARROS
+      </h1>
+ 
+      
+      <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button className="btn btn-primary me-md-4" type="button" onClick={()=>abrirCerrarModalInsertar()}>
+          Insertar
+        </button>
+       
+      </div>
+           
+      <div className="table-responsive p-4">
+      <table className="table table-bordered">
+          <thead className="table-primary">
+            <tr>
               <th scope="col">Marca</th>
               <th scope="col">Modelo</th>
               <th scope="col">Year</th>
               <th scope="col">Cilindrada</th>
               <th scope="col">Procedencia</th>
               <th scope="col">Precio</th>
-              <th scope="col">Pic1</th>
-              <th scope="col">Pic2</th>
               <th scope="col">Acciones</th>
             </tr>
           </thead>
-          <tbody class="table-secondary">{data.map(cars=>(
+          <tbody className="table-secondary table-group-divider">{data.map(cars=>(
 
             <tr key={cars.id}>
                 <td scope="row">{cars.marca}</td>
@@ -364,8 +415,6 @@ function App() {
                 <td>{cars.cilindrada}</td>
                 <td>{cars.procedencia}</td>
                 <td>{cars.precio}</td>
-                <td>{cars.pic1}</td>
-                <td>{cars.pic2}</td>
                 <td><Edit className="iconos" onClick={()=>seleccionarcars(cars,'Editar')}/>
                   &nbsp;&nbsp;&nbsp;
                   <Delete className="iconos" onClick={()=>seleccionarcars(cars,'Eliminar')}/>
@@ -377,8 +426,11 @@ function App() {
           </tbody>
 
       </table>
+      </div>
 
-
+      
+      
+      
 
 
 
@@ -409,6 +461,7 @@ function App() {
       </Modal>
 
       <Modal
+      
       show={modalVer}
       onHidde={abrirCerrarModalVer}
       >
